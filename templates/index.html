@@ -15,10 +15,7 @@
         button:hover { background: #0369a1; }
         .result { margin-top: 20px; background: #064e3b; padding: 15px; border-radius: 4px; border: 1px solid #059669; }
     </style>
-</head>
-<body>
-    <div class="container">
-        <h2>🌍 Global Time Checker</h2>
+    body { 
         <ul>
             {% for zone, t in current_times.items() %}
                 <li><span>{{ zone }}</span> <strong>{{ t }}</strong></li>
@@ -62,3 +59,4 @@
     </div>
 </body>
 </html>
+
