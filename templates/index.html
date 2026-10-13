@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>DevOps Time Checker & Converter</title>
+    <style>
+        body { font-family: Arial, sans-serif; background: #0f172a; color: #f8fafc; padding: 40px; }
+        .container { max-width: 600px; margin: auto; background: #1e293b; padding: 30px; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.3); }
+        h2, h3 { color: #38bdf8; }
+        ul { list-style: none; padding: 0; }
+        li { background: #334155; margin-bottom: 8px; padding: 10px 15px; border-radius: 4px; display: flex; justify-content: space-between; }
+        label { display: block; margin-top: 15px; font-size: 14px; color: #cbd5e1; }
+        input, select { width: 100%; padding: 10px; margin-top: 5px; background: #0f172a; border: 1px solid #475569; color: white; border-radius: 4px; }
+        button { margin-top: 20px; width: 100%; background: #0284c7; color: white; border: none; padding: 12px; border-radius: 4px; font-weight: bold; cursor: pointer; }
+        button:hover { background: #0369a1; }
+        .result { margin-top: 20px; background: #064e3b; padding: 15px; border-radius: 4px; border: 1px solid #059669; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>🌍 Global Time Checker</h2>
+        <ul>
+            {% for zone, t in current_times.items() %}
+                <li><span>{{ zone }}</span> <strong>{{ t }}</strong></li>
+            {% endfor %}
+        </ul>
+
+        <hr style="border: 0; border-top: 1px solid #475569; margin: 30px 0;">
+
+        <h3>⏱️ Time Zone Converter</h3>
+        <form method="POST">
+            <label>Select Date & Time:</label>
+            <input type="datetime-local" name="time_input" required>
+
+            <label>From Timezone:</label>
+            <select name="from_tz">
+                {% for tz in all_timezones %}
+                    <option value="{{ tz }}" {% if tz == 'Asia/Kolkata' %}selected{% endif %}>{{ tz }}</option>
+                {% endfor %}
+            </select>
+
+            <label>To Timezone:</label>
+            <select name="to_tz">
+                {% for tz in all_timezones %}
+                    <option value="{{ tz }}" {% if tz == 'UTC' %}selected{% endif %}>{{ tz }}</option>
+                {% endfor %}
+            </select>
+
+            <button type="submit">Convert Time</button>
+        </form>
+
+        {% if converted_result %}
+            <div class="result">
+                {% if converted_result.error %}
+                    <p style="color: #fca5a5;">Error: {{ converted_result.error }}</p>
+                {% else %}
+                    <p><strong>Original:</strong> {{ converted_result.original }}</p>
+                    <p><strong>Converted:</strong> {{ converted_result.converted }}</p>
+                {% endif %}
+            </div>
+        {% endif %}
+    </div>
+</body>
+</html>
